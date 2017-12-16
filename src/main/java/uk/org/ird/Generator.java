@@ -67,13 +67,9 @@ public class Generator {
 			System.err.format("IOException: %s%n", x);
 			return;
 		}
-		for(String s : dexterVictims) {
-			System.out.println(s);
-		}
-		for(String s: songs) {
-			System.out.println(s);
-		}
 		SolutionSpace dexterWherePuzzle = new SolutionSpace(dexterVictims, songs);
-		System.out.println(dexterWherePuzzle);
+		//dexterWherePuzzle.enumerate();
+		dexterWherePuzzle.findPuzzlesFor("KITCHEN");
+		//dexterWherePuzzle
 	}
 }
