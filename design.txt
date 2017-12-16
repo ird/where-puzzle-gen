@@ -1,0 +1,55 @@
+project: where-puzzle-gen
+
+aim: from a set of input files (described next) generate a 'where puzzle' that gives the desired answer
+
+inputs: 
+1. answer (string) - the result of solving the puzzle
+2. orderList.json - list that identify an ordering over a set of words: eg:
+	{'red', 'orange' }
+3. strings.txt - lines of text that may be used to create the puzzle
+
+
+example:
+example_answer = 'ready'
+example_orderList = {'fish', 'snacks', 'cows', 'vegetables', 'laughter', 'nobody', 'sandwiches', 'kyle'}
+example_strings = 
+	keep eating vegetables
+	red sky at night
+	laugh twice a day
+	create a fish
+	don't eat yellow snow
+	advise nobody
+	...
+	kyle is a stickler
+
+result:
+	using column 2:
+	create a fish
+	keep eating vegetables
+	laugh twice a day
+	advise nobody
+	kyle is a stickler
+
+How to solve: 
+Put all the example strings in a map according to the orderList. Strings that have nothing in common with items in the list get ignored.
+Map is indexed by the position of items in the list.
+Search from map[0] for the first letter. store the column in which it is found. search following strings at that column for subsequent letters
+in the 'answer'. if none can be found, go back to looking for a new first letter.
+Return the list of strings that spell the desired word and the column which contains it.
+
+Components:
+
+function void buildSolutionMap(orderList, inputFile)
+function col (int) findFirstAndRemove(answer) --> updates this.answer and solutionMap
+function boolean findAnswer(substring(answer, 1) , col) --> updates this.answer
+function generate(answer, orderList, inputFile) {
+	buildSolutionMap(o, i)
+	while(1) {
+		int col = findFirstAndRemove(answer)
+		if(findAnswer(...))
+			break;
+		else
+			this.answer.clear()
+private member solutionMap (HashMap<Integer, LinkedList<String>>)
+private member answer (LinkedList<String>)
+
