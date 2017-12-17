@@ -27,7 +27,8 @@ public class Generator {
 				for(String f: filter) {
 					if(line.contains(f)){
 						line = line.replaceAll("[^a-zA-Z!0-9]", "").toUpperCase();
-						res.add(line);
+						if(line.length() < 40)
+							res.add(line);
 						continue;
 					}
 				}
@@ -39,7 +40,7 @@ public class Generator {
 		return res;
 	}
 	public static void songBankPreprocess(String input, String output) throws IOException {
-		Charset cs = Charset.forName("Cp1252");
+		Charset cs = Charset.forName("US-ASCII");
 		Charset cs_write = Charset.forName("US-ASCII");
 		OpenOption[] options = { CREATE_NEW, APPEND, WRITE };
 		BufferedReader reader = Files.newBufferedReader(Paths.get(input), cs);
@@ -58,18 +59,20 @@ public class Generator {
 	public static void main(String[] args) {
 		
 		ArrayList<String> dexterVictims;
-		ArrayList<String> songs;
+		ArrayList<String> songs, songs2;
 		try {
 			//songBankPreprocess("dex/song_titles.txt", "dex/songs.txt");
 			dexterVictims = buildArrayFromFile("dex/victims.txt");
-			songs = buildArrayFromFileFiltered("dex/songs.txt", dexterVictims);
+			songs = buildArrayFromFileFiltered("dex/asciisongs.txt", dexterVictims);
+			songs2 = buildArrayFromFileFiltered("dex/songs.txt", dexterVictims);
+			songs.addAll(songs2);
 		} catch (IOException x) {
 			System.err.format("IOException: %s%n", x);
 			return;
 		}
 		SolutionSpace dexterWherePuzzle = new SolutionSpace(dexterVictims, songs);
 		//dexterWherePuzzle.enumerate();
-		dexterWherePuzzle.findPuzzlesFor("KITCHEN");
+		dexterWherePuzzle.findPuzzlesFor("SINK");
 		//dexterWherePuzzle
 	}
 }
